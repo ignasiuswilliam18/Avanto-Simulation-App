@@ -40,20 +40,20 @@ const App: React.FC = () => {
     };
   };
 
-  const hitungPerHari = (cicilan: number) => Math.round(cicilan / 30);
-
   const ops1 = useMemo(() => calculate(hp.price), [hp, tenor, dp, provider, bungaRate]);
   const ops2 = useMemo(() => calculate(hp.price + iot.price + care.price), [hp, iot, care, tenor, dp, provider, bungaRate]);
 
   return (
     <div className="min-h-screen bg-slate-50 pb-10 text-slate-800 font-sans">
-      <header className="bg-white border-b-4 border-green-500 px-4 py-6 text-center shadow-sm">
+      <header className="bg-white border-b-4 border-green-500 px-4 py-6 text-center shadow-sm mb-6">
         <h1 className="text-2xl font-black text-slate-800 tracking-tight">AVANTO</h1>
         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Oppo Official Financing Platform</p>
       </header>
 
-      <main className="p-4 space-y-6 max-w-lg mx-auto">
-        <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+      <main className="p-4 mx-auto max-w-6xl lg:grid lg:grid-cols-3 lg:gap-6 lg:items-start">
+        
+        {/* SECTION 1: KONTROL */}
+        <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5 lg:sticky lg:top-6">
           <div className="space-y-1">
             <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Financing Provider</label>
             <ProviderSelector value={provider} onChange={setProvider} providers={["Avanto by Kredivo", "Avanto by Yesscredit"]} />
@@ -81,47 +81,44 @@ const App: React.FC = () => {
           <DPInput value={dp} onChange={setDp} max={hp.price} />
         </section>
 
-        <section className="grid grid-cols-1 gap-4">
-          <div className="p-4 bg-blue-50 border-2 border-blue-200 rounded-2xl shadow-sm">
-            <p className="text-[9px] font-bold text-slate-400 uppercase text-center">HP Saja</p>
-            <p className="text-xl font-black text-slate-700 text-center mt-1">Rp {ops1.cicilan.toLocaleString()}</p>
-            <div className="flex flex-col text-[9px] text-slate-500 mt-3 border-t pt-2 gap-1">
-                <span className="font-bold text-slate-700">Total Pinjaman: Rp {ops1.totalPinjaman.toLocaleString()}</span>
-                <div className="flex justify-between">
-                    <span>Adm: Rp {ops1.admin.toLocaleString()}</span>
-                    <span>Bunga: Rp {ops1.totalBunga.toLocaleString()}</span>
+        {/* SECTION 2: ANALISIS & HASIL */}
+        <section className="lg:col-span-2 space-y-6 mt-6 lg:mt-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Card HP Saja */}
+                <div className="p-5 bg-white border border-slate-200 rounded-2xl shadow-sm">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase text-center">HP Saja</p>
+                    <p className="text-2xl font-black text-slate-800 text-center mt-2">Rp {ops1.cicilan.toLocaleString()}</p>
+                    <p className="text-[10px] text-center text-slate-400 mt-1 mb-4">/ bulan</p>
+                    <div className="space-y-2 text-[11px] text-slate-600 border-t pt-4">
+                        <div className="flex justify-between font-bold"><span>Total Pinjaman</span><span>Rp {ops1.totalPinjaman.toLocaleString()}</span></div>
+                        <div className="flex justify-between"><span>Biaya Admin</span><span>Rp {ops1.admin.toLocaleString()}</span></div>
+                        <div className="flex justify-between"><span>Total Bunga</span><span>Rp {ops1.totalBunga.toLocaleString()}</span></div>
+                    </div>
+                </div>
+
+                {/* Card Paket Lengkap */}
+                <div className="p-5 bg-emerald-600 rounded-2xl shadow-lg text-white">
+                    <p className="text-[9px] font-bold text-emerald-100 uppercase text-center">Paket Lengkap</p>
+                    <p className="text-2xl font-black text-white text-center mt-2">Rp {ops2.cicilan.toLocaleString()}</p>
+                    <p className="text-[10px] text-center text-emerald-100 mt-1 mb-4">/ bulan</p>
+                    <div className="space-y-2 text-[11px] text-emerald-50 border-t border-emerald-500 pt-4">
+                        <div className="flex justify-between font-bold"><span>Total Pinjaman</span><span>Rp {ops2.totalPinjaman.toLocaleString()}</span></div>
+                        <div className="flex justify-between"><span>Biaya Admin</span><span>Rp {ops2.admin.toLocaleString()}</span></div>
+                        <div className="flex justify-between"><span>Total Bunga</span><span>Rp {ops2.totalBunga.toLocaleString()}</span></div>
+                    </div>
                 </div>
             </div>
-            <p className="text-[10px] text-center text-slate-400 mt-1">~ Rp {hitungPerHari(ops1.cicilan).toLocaleString()}/hari</p>
-          </div>
-          
-          <div className="p-4 bg-green-500 border-2 border-green-600 rounded-2xl shadow-md text-white">
-            <p className="text-[9px] font-bold text-green-100 uppercase text-center">Paket Lengkap</p>
-            <p className="text-xl font-black text-white text-center mt-1">Rp {ops2.cicilan.toLocaleString()}</p>
-            <div className="flex flex-col text-[9px] text-green-50 mt-3 border-t border-green-400 pt-2 gap-1">
-                <span className="font-bold text-white">Total Pinjaman: Rp {ops2.totalPinjaman.toLocaleString()}</span>
-                <div className="flex justify-between">
-                    <span>Adm: Rp {ops2.admin.toLocaleString()}</span>
-                    <span>Bunga: Rp {ops2.totalBunga.toLocaleString()}</span>
-                </div>
-            </div>
-            <p className="text-[10px] text-center text-green-100 mt-1">~ Rp {hitungPerHari(ops2.cicilan).toLocaleString()}/hari</p>
-          </div>
+
+            {/* Selisih */}
+            <section className="bg-gradient-to-r from-orange-400 to-orange-500 p-6 rounded-2xl text-white text-center shadow-lg">
+                <p className="text-[10px] font-bold uppercase tracking-widest mb-1 opacity-90">Selisih Angsuran</p>
+                <div className="text-4xl font-black mb-3">+ Rp {(ops2.cicilan - ops1.cicilan).toLocaleString()} <span className="text-sm font-normal text-orange-50">/bln</span></div>
+                <p className="text-[11px] leading-relaxed bg-black/10 p-3 rounded-xl">
+                    Hanya dengan menambah <b className="font-bold">Rp {(ops2.cicilan - ops1.cicilan).toLocaleString()}</b> Anda bisa membawa pulang HP, proteksi OPPO Care, dan produk IOT!
+                </p>
+            </section>
         </section>
 
-        <section className="bg-gradient-to-r from-orange-400 to-orange-500 p-6 rounded-2xl text-white text-center shadow-lg">
-            <p className="text-[10px] font-bold uppercase tracking-widest mb-1 opacity-90">Selisih Angsuran</p>
-            <div className="text-4xl font-black mb-3">+ Rp {(ops2.cicilan - ops1.cicilan).toLocaleString()} <span className="text-sm font-normal text-orange-50">/bln</span></div>
-            <p className="text-[11px] leading-relaxed bg-black/10 p-3 rounded-xl">
-                Hanya dengan menambah <b className="font-bold">Rp {(ops2.cicilan - ops1.cicilan).toLocaleString()}</b> anda bisa membawa pulang HP, proteksi OPPO Care dan produk IOT!
-            </p>
-        </section>
-
-        <footer className="text-center space-y-1 pt-4 text-slate-400">
-            <h2 className="font-black text-slate-600">Avanto</h2>
-            <p className="text-[9px] uppercase tracking-widest">Oppo Official Financing Platform</p>
-            <p className="text-[9px] font-bold mt-2 text-blue-500">Supported by yesscredit & Kredivo</p>
-        </footer>
       </main>
     </div>
   );
