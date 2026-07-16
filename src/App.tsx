@@ -35,7 +35,8 @@ const App: React.FC = () => {
         cicilan: Math.round(totalHutang / tenor), 
         admin: Math.round(admin), 
         totalBunga: Math.round(totalBunga),
-        totalHarga: totalBarang
+        totalHarga: totalBarang,
+        totalPinjaman: Math.round(totalHutang)
     };
   };
 
@@ -84,18 +85,25 @@ const App: React.FC = () => {
           <div className="p-4 bg-blue-50 border-2 border-blue-200 rounded-2xl shadow-sm">
             <p className="text-[9px] font-bold text-slate-400 uppercase text-center">HP Saja</p>
             <p className="text-xl font-black text-slate-700 text-center mt-1">Rp {ops1.cicilan.toLocaleString()}</p>
-            <div className="flex justify-between text-[9px] text-slate-500 mt-3 border-t pt-2">
-                <span>Adm: Rp {ops1.admin.toLocaleString()}</span>
-                <span>Bunga: Rp {ops1.totalBunga.toLocaleString()}</span>
+            <div className="flex flex-col text-[9px] text-slate-500 mt-3 border-t pt-2 gap-1">
+                <span className="font-bold text-slate-700">Total Pinjaman: Rp {ops1.totalPinjaman.toLocaleString()}</span>
+                <div className="flex justify-between">
+                    <span>Adm: Rp {ops1.admin.toLocaleString()}</span>
+                    <span>Bunga: Rp {ops1.totalBunga.toLocaleString()}</span>
+                </div>
             </div>
             <p className="text-[10px] text-center text-slate-400 mt-1">~ Rp {hitungPerHari(ops1.cicilan).toLocaleString()}/hari</p>
           </div>
+          
           <div className="p-4 bg-green-500 border-2 border-green-600 rounded-2xl shadow-md text-white">
             <p className="text-[9px] font-bold text-green-100 uppercase text-center">Paket Lengkap</p>
             <p className="text-xl font-black text-white text-center mt-1">Rp {ops2.cicilan.toLocaleString()}</p>
-            <div className="flex justify-between text-[9px] text-green-50 mt-3 border-t border-green-400 pt-2">
-                <span>Adm: Rp {ops2.admin.toLocaleString()}</span>
-                <span>Bunga: Rp {ops2.totalBunga.toLocaleString()}</span>
+            <div className="flex flex-col text-[9px] text-green-50 mt-3 border-t border-green-400 pt-2 gap-1">
+                <span className="font-bold text-white">Total Pinjaman: Rp {ops2.totalPinjaman.toLocaleString()}</span>
+                <div className="flex justify-between">
+                    <span>Adm: Rp {ops2.admin.toLocaleString()}</span>
+                    <span>Bunga: Rp {ops2.totalBunga.toLocaleString()}</span>
+                </div>
             </div>
             <p className="text-[10px] text-center text-green-100 mt-1">~ Rp {hitungPerHari(ops2.cicilan).toLocaleString()}/hari</p>
           </div>
